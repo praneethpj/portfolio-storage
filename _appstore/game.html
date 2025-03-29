@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch the Ball Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #282c34;
+            color: white;
+        }
+        #game-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 20px auto;
+            border: 2px solid white;
+            background-color: #444;
+        }
+        .ball {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Catch the Ball Game</h1>
+    <p>Click the ball to score points!</p>
+    <h2>Score: <span id="score">0</span></h2>
+    <div id="game-container">
+        <div class="ball" id="ball"></div>
+    </div>
+
+    <script>
+        const ball = document.getElementById("ball");
+        const scoreDisplay = document.getElementById("score");
+        let score = 0;
+        let speed = 1000; // Initial speed (ms)
+
+        function moveBall() {
+            const container = document.getElementById("game-container");
+            const maxX = container.clientWidth - ball.clientWidth;
+            const maxY = container.clientHeight - ball.clientHeight;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            ball.style.left = `${randomX}px`;
+            ball.style.top = `${randomY}px`;
+        }
+
+        function increaseScore() {
+            score++;
+            scoreDisplay.textContent = score;
+            speed = Math.max(300, speed - 50); // Increase difficulty
+            clearInterval(gameInterval);
+            gameInterval = setInterval(moveBall, speed);
+            moveBall(); // Move instantly on click
+        }
+
+        ball.addEventListener("click", increaseScore);
+
+        let gameInterval = setInterval(moveBall, speed);
+    </script>
+</body>
+</html>
